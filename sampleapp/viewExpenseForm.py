@@ -15,7 +15,14 @@ from django.utils.unittest import TestCase
 
 from expenses.models import Accounts, Contractors, Subcategory, Budget, Category
 
-
+MY_CHOICES = (
+    ('1', ''),
+    ('2', 'Tak'),
+    ('3', 'Nie'),
+)
+def get_my_choices():
+    # you place some logic here
+    return choices_list
 class ExpenseFilterForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
@@ -28,7 +35,7 @@ class ExpenseFilterForm(forms.Form):
     account = forms.ChoiceField([(obj.id, obj.name) for obj in Accounts.objects.filter()])
     contractor = forms.ChoiceField([(obj.id, obj.name) for obj in Contractors.objects.filter()], required=False)
     category = forms.ChoiceField([(obj.id, obj.name) for obj in Category.objects.filter()], required=False)
-    closed=forms.BooleanField(initial=False,required=False)
+    closed=forms.ChoiceField(choices=MY_CHOICES)
 
 
     required_css_class = 'bootstrap3-req'
@@ -42,6 +49,8 @@ class ExpenseFilterForm(forms.Form):
         self.fields['account'].choices = [[0, 'Konto']] + [(obj.id, obj.name+": "+"{:.2f}".format(obj.amount)+" zł" ) for obj in Accounts.objects.filter(members__in=User.objects.filter(id=user_id.id))]
         self.fields['contractor'].choices = [[0, 'Kontrahent']] + [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__isnull=True)]+ [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__in=Budget.objects.filter(members=user_id))]
         self.fields['category'].choices = [[0, 'Kategoria']] + [(obj.id, obj.name) for obj in Category.objects.filter(budget__isnull=True)]+ [(obj.id, obj.name) for obj in Category.objects.filter(budget__in=Budget.objects.filter(members=user_id))]
+        self.fields['my_choice_field'] = forms.ChoiceField(
+            choices=get_my_choices() )
     def clean(self):
 
         cleaned_data = super(ExpenseFilterForm, self).clean()
