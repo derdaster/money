@@ -437,10 +437,10 @@ def viewExpenses(request):
             category = request.POST['category']
             if 'closed' in request.POST:
                 closed = request.POST['closed']
-                if closed == 'Tak':
+                if closed == '2':
                     closedVar = True
                     latest_poll_list = latest_poll_list.filter(closed=closedVar)
-                elif closed == 'Nie':
+                elif closed == '3':
                     closedVar = False
                     latest_poll_list = latest_poll_list.filter(closed=closedVar)
             if name:
