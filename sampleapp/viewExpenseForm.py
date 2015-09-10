@@ -22,7 +22,7 @@ MY_CHOICES = (
 )
 def get_my_choices():
     # you place some logic here
-    return choices_list
+    return MY_CHOICES
 class ExpenseFilterForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
