@@ -1,0 +1,98 @@
+{% extends 'demo/bootstrap.html' %}
+
+{% load url from future %}
+
+{% load bootstrap3 %}
+
+{% block bootstrap3_content %}
+
+<!-- Static navbar -->
+    <div class="navbar-wrapper navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'home' %}">Feel your money</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--<li><a href="#about">Manage budget</a></li>-->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Budżet<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'add_budget' %}">Stwórz budżet</a></li>
+                <li><a href="{% url 'add_budgetuser' %}">Dodaj członka budżetu</a></li>
+                <!--<li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">One more separated link</a></li>-->
+              </ul>
+            </li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Konta<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'add_account' %}">Stwórz konto</a></li>
+                <li><a href="{% url 'add_accuser' %}">Dodaj użytkownika konta</a></li>
+				<li><a href="{% url 'accountsList' %}">Wyświetl stan kont</a></li>
+              </ul>
+            </li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Wydatki<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+				<li><a href="{% url 'add_expense' %}">Dodaj wydatek</a></li>
+                <li><a href="{% url 'add_income' %}">Dodaj przychód</a></li>
+				<li><a href="{% url 'expensesList' %}">Filtruj wydatki</a></li>
+				<li><a href="{% url 'incomeList' %}">Filtruj przychody</a></li>
+              </ul>
+            </li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategorie<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'add_category' %}">Dodaj kategorię</a></li>
+                <li><a href="{% url 'add_subcategory' %}">Dodaj podkategorię</a></li>
+              </ul>
+            </li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kontrahenci<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'add_contractor' %}">Dodaj kontrahenta</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+		  <li><a href="#">{{user.get_username}}</a></li>
+            <li><a href="{% url 'logOut' %}">Wyloguj się</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+
+    </div>
+	
+	
+    <div class="container">
+	<p></p>
+
+       <!-- <p>
+            <a href="{% url 'home' %}">home</a>
+			<a href="{% url 'add_budget' %}">add budget</a>
+			<a href="{% url 'add_budgetuser' %}">add budget member</a>
+			<a href="{% url 'add_account' %}">add account</a>
+			<a href="{% url 'add_accuser' %}">add account user</a>
+			<a href="{% url 'add_expense' %}">add expense</a>
+			<a href="{% url 'add_contractor' %}">add contractor</a>
+			<a href="{% url 'add_category' %}">add category</a>
+			<a href="{% url 'add_subcategory' %}">add subcategory</a>
+			<a href="{% url 'logout' %}">logout</a>
+        </p>-->
+
+        {% bootstrap_messages %}
+
+        {% block content %}(no content){% endblock %}
+    </div>
+	
+	
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'demo/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+    Forms
+{% endblock %}
+
+{% block content %}
+
+    
+        
+
+<form role="form" class="form-horizontal" action="/submitForm/" method="post">
+        {% csrf_token %}
+        
+		{{ form.as_p }}
+		
+        {% buttons submit='OK' reset='Cancel' layout='horizontal' %}{% endbuttons %}
+    </form>
+
+<table class="table table-striped">
+<thead>
+    <tr>
+        <th>Nazwa</th>
+        <th>Data</th>
+        <th>Kwota</th>
+		<th>Użytkownik</th>
+        <th>Konto</th>
+        <th>Kontrahent</th>
+		<th>Podkategoria</th>
+    </tr>
+    </thead>  
+<tbody>	
+{% for person in latest_poll_list %}
+<!--<tr>
+        <td>{{ person.name }}</td>
+		<td>{{ person.date }}</td>
+		<td>{{ person.amount }}</td>
+		<td>{{ person.user }}</td>
+		<td>{{ person.account.name }}</td>
+		<td>{{ person.contractor }}</td>
+		<td>{{ person.subcategory }}</td>
+    {% if not forloop.last and forloop.counter == 3 or forloop.counter == 6 %}
+    </tr>
+    {% endif %}-->
+
+
+        <tr>
+        <td>{{ person.name }}</td>
+		<td>{{ person.date }}</td>
+		<td>{{ person.amount }}</td>
+		<td>{{ person.user }}</td>
+		<td>{{ person.account.name }}</td>
+		<td>{{ person.contractor }}</td>
+		<td>{{ person.subcategory }}</td>
+        </tr>
+
+
+{% endfor %}
+<tr>
+        <td>Suma</td>
+		<td>{{ person.date }}</td>
+		<td>{{ expenses_sum.amount__sum }}</td>
+		<td>{{ person.user }}</td>
+		<td>{{ person.account.name }}</td>
+		<td>{{ person.contractor }}</td>
+		<td>{{ person.subcategory }}</td>
+        </tr>
+</tbody>
+</table>
+
+
+{% endblock %}

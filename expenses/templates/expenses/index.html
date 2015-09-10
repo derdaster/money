@@ -1,0 +1,9 @@
+{% if latest_expenses_list %}
+    <ul>
+    {% for expense in latest_expenses_list %}
+        <li><a href="{% url 'expenses:detail' expense.id %}">{{ expense.name }} {{ expense.amount }} {{ expense.date }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
