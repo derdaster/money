@@ -435,7 +435,12 @@ def viewExpenses(request):
             account = request.POST['account']
             contractor = request.POST['contractor']
             category = request.POST['category']
-            closed = request.POST['closed']
+            if 'closed' in request.POST:
+                closed = request.POST['closed']
+                if closed == 'Tak':
+                    closed = True
+                else:
+                    closed = False
             if name:
                 latest_poll_list = latest_poll_list.filter(name__contains=name)
             if int(user) != 0:
