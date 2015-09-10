@@ -439,8 +439,10 @@ def viewExpenses(request):
                 closed = request.POST['closed']
                 if closed == 'Tak':
                     closedVar = True
-                else:
+                    latest_poll_list = latest_poll_list.filter(closed=closedVar)
+                elif closed == 'Nie':
                     closedVar = False
+                    latest_poll_list = latest_poll_list.filter(closed=closedVar)
             if name:
                 latest_poll_list = latest_poll_list.filter(name__contains=name)
             if int(user) != 0:
@@ -456,9 +458,7 @@ def viewExpenses(request):
             if date_from:
                 latest_poll_list = latest_poll_list.filter(date__gte=date_from)
             if date_to:
-                latest_poll_list = latest_poll_list.filter(date__lte=date_to)
-            if closed:
-                latest_poll_list = latest_poll_list.filter(closed=closedVar)     
+                latest_poll_list = latest_poll_list.filter(date__lte=date_to)    
             print(date_from)
             expenses_sum = latest_poll_list.aggregate(Sum('amount'))
             return render(request, 'demo/view_expenses.html', {'form': form,
