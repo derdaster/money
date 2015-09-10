@@ -52,6 +52,7 @@ class Expenses(models.Model):
     contractor=models.ForeignKey(Contractors,null=True,blank=True)
     subcategory=models.ForeignKey(Subcategory)
     fixed=models.BooleanField(blank=True)
+    closed=models.BooleanField(blank=True)
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.name
     def was_published_recently(self):

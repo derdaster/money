@@ -150,10 +150,10 @@ def submitForm(request):
             user.first_name = name
             user.last_name = surname
             user.save()
-            b = Budget(name=user.username+'_budget')
+            b = Budget(name=user.username + '_budget')
             b.save()
             b.members.add(user)
-            u = Accounts(name='konto',amount=0)
+            u = Accounts(name='konto', amount=0)
             u.save()
             u.members.add(user)
             messages.info(request, 'Zarejestrowano użytkownika, teraz możesz zalogować się w panelu logowania')
@@ -249,13 +249,16 @@ def submitExpense(request):
             accountNumber = request.POST['account']
             contractor = request.POST['contractor']
             fixed = False
+            closed = False
             if 'fixed' in request.POST:
                 fixed = request.POST['fixed']
+            if 'closed' in request.POST:
+                closed = request.POST['closed']
             a = Accounts.objects.get(id=accountNumber)
-            u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, contractor=Contractors.objects.get(id=contractor))
+            u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, closed=closed, contractor=Contractors.objects.get(id=contractor))
             if 'subcategory' in request.POST:
                 subcategory = request.POST['subcategory']
-                u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, subcategory=Subcategory.objects.get(id=subcategory), contractor=Contractors.objects.get(id=contractor))
+                u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, closed=closed, subcategory=Subcategory.objects.get(id=subcategory), contractor=Contractors.objects.get(id=contractor))
             u.save()
             a.amount = a.amount - float(amount)
             a.save()

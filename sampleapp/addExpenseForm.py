@@ -28,6 +28,7 @@ class ExpenseForm(forms.Form):
     contractor = forms.ChoiceField([(obj.id, obj.name) for obj in Contractors.objects.filter()], label='Kontrahent', required=False)
     subcategory = forms.ChoiceField([(obj.id, obj.name) for obj in Subcategory.objects.filter()], label='Podkategoria', required=False)
     fixed = forms.BooleanField(label='Stały wydatek', required=False)
+    closed = forms.BooleanField(label='Rozliczone', required=False)
 
 
     required_css_class = 'bootstrap3-req'
