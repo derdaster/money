@@ -16,9 +16,9 @@ from django.utils.unittest import TestCase
 from expenses.models import Accounts, Contractors, Subcategory, Budget, Category
 
 MY_CHOICES = (
-    ('1', ''),
-    ('2', 'Tak'),
-    ('3', 'Nie'),
+    (''),
+    ('Tak'),
+    ('Nie'),
 )
 def get_my_choices():
     # you place some logic here
