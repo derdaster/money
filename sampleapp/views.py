@@ -457,7 +457,7 @@ def viewExpenses(request):
                 latest_poll_list = latest_poll_list.filter(date__gte=date_from)
             if date_to:
                 latest_poll_list = latest_poll_list.filter(date__lte=date_to)
-            if date_to:
+            if closed:
                 latest_poll_list = latest_poll_list.filter(closed=closed)     
             print(date_from)
             expenses_sum = latest_poll_list.aggregate(Sum('amount'))

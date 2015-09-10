@@ -49,7 +49,7 @@ class ExpenseFilterForm(forms.Form):
         self.fields['account'].choices = [[0, 'Konto']] + [(obj.id, obj.name+": "+"{:.2f}".format(obj.amount)+" zł" ) for obj in Accounts.objects.filter(members__in=User.objects.filter(id=user_id.id))]
         self.fields['contractor'].choices = [[0, 'Kontrahent']] + [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__isnull=True)]+ [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__in=Budget.objects.filter(members=user_id))]
         self.fields['category'].choices = [[0, 'Kategoria']] + [(obj.id, obj.name) for obj in Category.objects.filter(budget__isnull=True)]+ [(obj.id, obj.name) for obj in Category.objects.filter(budget__in=Budget.objects.filter(members=user_id))]
-        self.fields['my_choice_field'] = forms.ChoiceField(
+        self.fields['closed'] = forms.ChoiceField(
             choices=get_my_choices() )
     def clean(self):
 
