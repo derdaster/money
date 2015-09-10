@@ -435,6 +435,7 @@ def viewExpenses(request):
             account = request.POST['account']
             contractor = request.POST['contractor']
             category = request.POST['category']
+            closed = request.POST['closed']
             if name:
                 latest_poll_list = latest_poll_list.filter(name__contains=name)
             if int(user) != 0:
@@ -450,7 +451,9 @@ def viewExpenses(request):
             if date_from:
                 latest_poll_list = latest_poll_list.filter(date__gte=date_from)
             if date_to:
-                latest_poll_list = latest_poll_list.filter(date__lte=date_to)    
+                latest_poll_list = latest_poll_list.filter(date__lte=date_to)
+            if date_to:
+                latest_poll_list = latest_poll_list.filter(closed=closed)     
             print(date_from)
             expenses_sum = latest_poll_list.aggregate(Sum('amount'))
             return render(request, 'demo/view_expenses.html', {'form': form,

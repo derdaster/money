@@ -28,6 +28,7 @@ class ExpenseFilterForm(forms.Form):
     account = forms.ChoiceField([(obj.id, obj.name) for obj in Accounts.objects.filter()])
     contractor = forms.ChoiceField([(obj.id, obj.name) for obj in Contractors.objects.filter()], required=False)
     category = forms.ChoiceField([(obj.id, obj.name) for obj in Category.objects.filter()], required=False)
+    closed=forms.BooleanField(initial=False,required=False)
 
 
     required_css_class = 'bootstrap3-req'
