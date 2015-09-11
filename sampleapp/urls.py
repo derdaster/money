@@ -8,7 +8,7 @@ from sampleapp import settings
 from sampleapp .views import FormHorizontalView, AddUserView, AddBudgetUserView, AddAccountView, AddExpenseView, AddAccuserView, AddBudgetView, AddContractorView, AddCategoryView, AddLoginView, AddLogoutView, LoggedView, \
     viewAccounts, editExpense, submitIncome, viewIncome, editAccount, editIncome
 
-from .views import IndexView, submitForm, submitBudgetUser, submitAccount, submitExpense, submitAccuser, submitBudget, submitContractor, submitCategory, submitSubcategory, submitLogin, logOut, getExpenses, viewExpenses
+from .views import IndexView, submitForm, submitBudgetUser, submitAccount, submitExpense, submitAccuser, submitBudget, submitContractor, submitCategory, submitSubcategory, submitLogin, logOut, getExpenses, viewExpenses, closeExpenses
 
 
 admin.autodiscover()
@@ -47,6 +47,7 @@ urlpatterns = patterns('',
     url(r'^incomeList/', login_required(viewIncome), name='incomeList'),
     url(r'^accountsList/', login_required(viewAccounts), name='accountsList'),
     url(r'^editExpense/', login_required(editExpense), name='editExpense'),
+    url(r'^closeExpenses/', login_required(closeExpenses), name='closeExpenses'),
     url(r'^editIncome/', login_required(editIncome), name='editIncome'),
     url(r'^editAccount/', login_required(editAccount), name='editAccount'),
     url(r'^submitIncome/', login_required(submitIncome)),

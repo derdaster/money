@@ -61,7 +61,13 @@
 		<td>{{ person.account.name }}</td>
 		<td>{{ person.contractor }}</td>
 		<td>{{ person.subcategory }}</td>
-		<td>{{ person.closed }}</td>
+		<td> <form action="/closeExpenses/" method="post">
+        {% csrf_token %}
+        {% for person in latest_poll_list %}
+        <input type='hidden' name='closingList' value={{ person.id }} />
+        {% endfor %}
+        {% buttons submit='Rozlicz' layout='inline' %}{% endbuttons %}
+    </form></td>
 		
         </tr>
 </tbody>

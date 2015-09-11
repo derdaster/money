@@ -623,6 +623,27 @@ def editAccount(request):
         return render(request, 'demo/editAccount.html', {'form': form})
     return render(request, 'demo/editAccount.html', {'form': form})
 
+def closeExpenses(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        # check whether it's valid:
+        form = ExpenseFilterForm(request.POST, user_id=request.user)
+        if 'closingList' in request.POST:
+            list = request.POST.getlist('closingList')
+            print(request.POST.getlist('closingList'))
+            #print(request.POST['closingList'])
+            #print(dict(request.POST)['closingList'])
+            for expense in list:
+                print(expense)
+                exp = Expenses.objects.get(id=expense)
+                exp.closed=True
+                exp.save()
+            latest_poll_list = Expenses.objects.filter(id__in=list)
+            expenses_sum = latest_poll_list.aggregate(Sum('amount'))
+            return render(request, 'demo/view_expenses.html', {'form': form,
+        'latest_poll_list': latest_poll_list, 'expenses_sum': expenses_sum, })
+    return render(request, 'demo/view_expenses.html', {'form': form})
+
 @transaction.commit_manually
 def flush_transaction():
     transaction.commit()
