@@ -15,6 +15,9 @@ from django.template import Template, Context
 from django.utils.unittest import TestCase
 
 from expenses.models import Accounts, Contractors, Subcategory, Category, Budget
+from Tkconstants import HIDDEN
+
+
 
 
 class ExpenseForm(forms.Form):
@@ -22,9 +25,12 @@ class ExpenseForm(forms.Form):
     Form with a variety of widgets to test bootstrap3 rendering.
     """
     name = forms.CharField(label='Nazwa*', required=True)
-    date = forms.DateField(label='Data*', required=True, widget=AdminDateWidget, initial=datetime.now())
+    date = forms.DateField(label='Data*', required=True, widget=AdminDateWidget(), initial=datetime.now())
     amount = forms.FloatField(label='Kwota*', required=True)
-    account = forms.ChoiceField([(obj.id, obj.name) for obj in Accounts.objects.filter()], label='Konto*', required=True)
+    account1 = forms.ChoiceField([(obj.id, obj.name) for obj in Accounts.objects.filter()], label='Konto1*', required=True)
+    percentage = forms.FloatField(label='Część kwoty', required=False,min_value=0.0, max_value=1.0)
+    account2 = forms.ChoiceField([(obj.id, obj.name) for obj in Accounts.objects.filter()], label='Konto2*', required=False)
+    percentage2 = forms.FloatField(label='Część kwoty', required=False,min_value=0.0, max_value=1.0)
     contractor = forms.ChoiceField([(obj.id, obj.name) for obj in Contractors.objects.filter()], label='Kontrahent', required=False)
     subcategory = forms.ChoiceField([(obj.id, obj.name) for obj in Subcategory.objects.filter()], label='Podkategoria', required=False)
     fixed = forms.BooleanField(label='Stały wydatek', required=False)
@@ -36,8 +42,9 @@ class ExpenseForm(forms.Form):
         user_id = kwargs.pop('user_id')
         super(ExpenseForm, self).__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(label='Nazwa*', required=True, initial='wydatek')
-        self.fields['date'] = forms.DateField(required=True, widget=AdminDateWidget, initial=datetime.now())
-        self.fields['account'].choices = [(obj.id, obj.name + ": " + "{:.2f}".format(obj.amount) + " zł") for obj in Accounts.objects.filter(members__in=User.objects.filter(id=user_id.id))]
+        self.fields['date'] = forms.DateField(required=True, widget=AdminDateWidget(), initial=datetime.now())
+        self.fields['account1'].choices = [(obj.id, obj.name + ": " + "{:.2f}".format(obj.amount) + " zł") for obj in Accounts.objects.filter(members__in=User.objects.filter(id=user_id.id))]
+        self.fields['account2'].choices = [(obj.id, obj.name + ": " + "{:.2f}".format(obj.amount) + " zł") for obj in Accounts.objects.filter(members__in=User.objects.filter(id=user_id.id))]
         self.fields['contractor'].choices = [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__isnull=True)]+ [(obj.id, obj.name) for obj in Contractors.objects.filter(budget__in=Budget.objects.filter(members=user_id))]
         self.fields['subcategory'].choices = [(obj.id, Category.objects.get(id__in=Subcategory.objects.filter(id=obj.id).values('category')).name + ": " + obj.name) for obj in (Subcategory.objects.filter(budget__in=Budget.objects.filter(members=user_id)))] + [(obj.id, Category.objects.get(id__in=Subcategory.objects.filter(id=obj.id).values('category')).name + ": " + obj.name) for obj in (Subcategory.objects.filter(budget__isnull=True))]
     def clean(self):

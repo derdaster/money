@@ -9,12 +9,66 @@
 
 
 {% block content %}
-
+    <script type="text/javascript">
+        $(function() {
+                $("#show_button").click(function() {
+                    $("#id_percentage").show();
+                    $('label[for="id_percentage"]').show ();
+                    $("#id_account2").show();
+                    $('label[for="id_account2"]').show ();
+                    $("#id_percentage2").show();
+                    $('label[for="id_percentage2"]').show ();                 
+                });
+                $("#hide_button").click(function() {
+                    $("#id_percentage").hide();
+                    $('label[for="id_percentage"]').hide ();
+                    $("#id_account2").hide();
+                    $('label[for="id_account2"]').hide ();
+                    $("#id_percentage2").hide();
+                    $('label[for="id_percentage2"]').hide ();
+                    
+                    $('#id_percentage').val("1");
+                    $("#id_percentage2").val("0");
+                });
+                
+                $("#50button").click(function() {
+                	$("#id_percentage").show();
+                    $('label[for="id_percentage"]').show ();
+                    $("#id_account2").show();
+                    $('label[for="id_account2"]').show ();
+                    $("#id_percentage2").show();
+                    $('label[for="id_percentage2"]').show ();
+                    
+                    $('#id_percentage').val("0.5");
+                    $("#id_percentage2").val("0.5");
+                });
+        });
+    </script>
+        <script type="text/javascript">
+        $( document ).ready(function() {
+        	 
+        	$("#id_percentage").hide();
+            $('label[for="id_percentage"]').hide ();
+            $("#id_account2").hide();
+            $('label[for="id_account2"]').hide ();
+            $("#id_percentage2").hide();
+            $('label[for="id_percentage2"]').hide ();
+            
+            $('#id_percentage').val("1");
+            $("#id_percentage2").val("0");
+         
+        });
+    </script>
     <form role="form" class="form-horizontal" action="/submitExpense/" method="post">
 
         {% csrf_token %}
         {% bootstrap_form form layout="horizontal" %}
-        {% buttons submit='OK' reset='Cancel' layout='horizontal' %}{% endbuttons %}
+        {% buttons submit='OK' reset='Cancel' layout='horizontal' %}
+        <button id="show_button" type="button" class="btn btn-default">Dodaj konto</button>
+        <button id="hide_button" type="button" class="btn btn-default">Schowaj konto</button>
+        <button id="50button" type="button" class="btn btn-default">50/50</button>
+        {% endbuttons %}
     </form>
-
+    
 {% endblock %}
+

@@ -9,9 +9,8 @@ from sampleapp .views import FormHorizontalView, AddUserView, AddBudgetUserView,
     viewAccounts, editExpense, submitIncome, viewIncome, editAccount, editIncome
 
 from .views import IndexView, submitForm, submitBudgetUser, submitAccount, submitExpense, submitAccuser, submitBudget, submitContractor, submitCategory, submitSubcategory, submitLogin, logOut, getExpenses, viewExpenses, closeExpenses
-
-
 admin.autodiscover()
+
 
 urlpatterns = patterns('',
     url(r'^$', IndexView.as_view(), name='index'),

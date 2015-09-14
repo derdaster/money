@@ -246,7 +246,10 @@ def submitExpense(request):
             name = request.POST['name']
             date = request.POST['date']
             amount = request.POST['amount']
-            accountNumber = request.POST['account']
+            accountNumber1 = request.POST['account1']
+            accountNumber2 = request.POST['account2']
+            percentage1 = request.POST['percentage']
+            percentage2 = request.POST['percentage2']
             contractor = request.POST['contractor']
             fixed = False
             closed = False
@@ -254,18 +257,28 @@ def submitExpense(request):
                 fixed = request.POST['fixed']
             if 'closed' in request.POST:
                 closed = request.POST['closed']
-            a = Accounts.objects.get(id=accountNumber)
-            u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, closed=closed, contractor=Contractors.objects.get(id=contractor))
+            account1 = Accounts.objects.get(id=accountNumber1)
+            
+            print(percentage1)
+            print(percentage2)
+            expense1 = Expenses(name=name, date=date, amount=float(amount)*float(percentage1), user=request.user, account=Accounts.objects.get(id=accountNumber1), fixed=fixed, closed=closed, contractor=Contractors.objects.get(id=contractor))
+            expense2 = Expenses(name=name, date=date, amount=float(amount)*float(percentage2), user=request.user, account=Accounts.objects.get(id=accountNumber2), fixed=fixed, closed=closed, contractor=Contractors.objects.get(id=contractor))
             if 'subcategory' in request.POST:
                 subcategory = request.POST['subcategory']
-                u = Expenses(name=name, date=date, amount=amount, user=request.user, account=Accounts.objects.get(id=accountNumber), fixed=fixed, closed=closed, subcategory=Subcategory.objects.get(id=subcategory), contractor=Contractors.objects.get(id=contractor))
-            u.save()
-            a.amount = a.amount - float(amount)
-            a.save()
+                expense1 = Expenses(name=name, date=date, amount=float(amount)*float(percentage1), user=request.user, account=Accounts.objects.get(id=accountNumber1), fixed=fixed, closed=closed, subcategory=Subcategory.objects.get(id=subcategory), contractor=Contractors.objects.get(id=contractor))
+                expense2 = Expenses(name=name, date=date, amount=float(amount)*float(percentage2), user=request.user, account=Accounts.objects.get(id=accountNumber2), fixed=fixed, closed=closed, subcategory=Subcategory.objects.get(id=subcategory), contractor=Contractors.objects.get(id=contractor))
+            expense1.save()
+            expense2.save()
+            print(account1.amount - float(amount)*float(percentage1))
+            account1.amount = account1.amount - float(amount)*float(percentage1)
+            account1.save()
+            account2 = Accounts.objects.get(id=accountNumber2)
+            account2.amount = account2.amount - float(amount)*float(percentage2)
+            account2.save()
             flush_transaction()
             messages.info(request, 'Dodano wydatek')
-            if(a.amount < 0):
-                messages.error(request, 'Dodałeś wydatek, któy spowodował że jesteś na debecie!')
+            if(account1.amount < 0 or account2.amount < 0):
+                messages.error(request, 'Dodałeś wydatek, który spowodował że jesteś na debecie!')
             return HttpResponseRedirect('submitExpense')
 
     # if a GET (or any other method) we'll create a blank form
